@@ -3,14 +3,14 @@ slackobot
 
 A proof of concept Slack bot
 
-This bot does two things:
+This bot does two things via a simple plugin architecture:
 
 1. Responds to "image me ________" with an appropriate google image search, returning a random image
 1. Responds to "8ball _________" with a random reply
 
 This code is ready to deploy to Heroku.
 
-# plugin architecture
+# Writing a plugin 
 
 All .py files in the plugins directory will be loaded. The plugin's function name must match the plugin's file name (without the `.py`). It is the plugin's responsibility to check the text for a desired match. The bot will use the first response that is not None. Here's the `eightball.py` code:
 
