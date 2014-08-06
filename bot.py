@@ -20,6 +20,8 @@ def getPlugins():
         plugins.append({"name": module_name, "function": plugin})
     return plugins
 
+plugins = getPlugins()
+
 @app.route('/', methods=['GET', 'POST'])
 def hello():
   if 'user_name' not in request.form or request.form['user_name'] == 'slackbot':
@@ -27,11 +29,9 @@ def hello():
   if 'text' not in request.form:
     return ''
   text = request.form['text']
-
   response = None
   for plugin in plugins:
     name = plugin["name"]
-    print name,
     response = getattr(plugin["function"], name)(text)
     if response:
       break
@@ -42,5 +42,4 @@ def hello():
     return ''
 
 if __name__ == "__main__":
-  plugins = getPlugins()
   app.run(debug = True, use_reloader=True, port = 5000)
