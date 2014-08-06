@@ -6,8 +6,13 @@ app = Flask(__name__)
 from time import sleep
 import random
 import imp
+import logging
 
 PLUGIN_FOLDER = './plugins'
+if 'SLACK_TOKEN' in os.environ:
+  SLACK_TOKEN = os.environ['SLACK_TOKEN']
+else:
+  SLACK_TOKEN = None
 
 def getPlugins():
     plugins = []
@@ -27,6 +32,8 @@ def hello():
   if 'user_name' not in request.form or request.form['user_name'] == 'slackbot':
     return ''
   if 'text' not in request.form:
+    return ''
+  if SLACK_TOKEN and ('token' not in request.form or request.form['token'] != SLACK_TOKEN):
     return ''
   text = request.form['text']
   response = None
